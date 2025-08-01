@@ -1,0 +1,1047 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Automated Receipt Processing System</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(50, 48, 44, 1);
+}
+.highlight-gray {
+	color: rgba(115, 114, 110, 1);
+	fill: rgba(115, 114, 110, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(205, 60, 58, 1);
+	fill: rgba(205, 60, 58, 1);
+}
+.highlight-default_background {
+	color: rgba(50, 48, 44, 1);
+}
+.highlight-gray_background {
+	background: rgba(248, 248, 247, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(248, 243, 252, 1);
+}
+.highlight-pink_background {
+	background: rgba(252, 241, 246, 1);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(115, 114, 110, 1);
+	fill: rgba(115, 114, 110, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(205, 60, 58, 1);
+	fill: rgba(205, 60, 58, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(248, 248, 247, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(248, 243, 252, 1);
+}
+.block-color-pink_background {
+	background: rgba(252, 241, 246, 1);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-default { background-color: rgba(84, 72, 49, 0.08); }
+.select-value-color-gray { background-color: rgba(84, 72, 49, 0.15); }
+.select-value-color-brown { background-color: rgba(210, 162, 141, 0.35); }
+.select-value-color-orange { background-color: rgba(224, 124, 57, 0.27); }
+.select-value-color-yellow { background-color: rgba(236, 191, 66, 0.39); }
+.select-value-color-green { background-color: rgba(123, 183, 129, 0.27); }
+.select-value-color-blue { background-color: rgba(93, 165, 206, 0.27); }
+.select-value-color-purple { background-color: rgba(168, 129, 197, 0.27); }
+.select-value-color-pink { background-color: rgba(225, 136, 179, 0.27); }
+.select-value-color-red { background-color: rgba(244, 171, 159, 0.4); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="242b5532-cba4-80e1-b8b0-d2ac86c14227" class="page sans"><header><div class="page-header-icon undefined"><img class="icon" src="https://www.notion.so/icons/receipt_blue.svg"/></div><h1 class="page-title"><strong>Automated Receipt Processing System</strong></h1><p class="page-description"></p></header><div class="page-body"><h1 id="242b5532-cba4-8094-9d4d-d715ce7b50e9" class="">AWS Receipt Processing Lambda Function Project Documentation</h1><h2 id="242b5532-cba4-8013-830a-c39a9d91b42e" class="">Overview</h2><p id="242b5532-cba4-8055-8058-f5cff3e302c3" class="">This project is designed to automate the processing of receipt images uploaded to an Amazon S3 bucket using a Lambda function. The Lambda function utilizes Amazon Textract, DynamoDB, and Amazon SES to extract, store, and notify users of receipt data in a seamless and scalable workflow.</p><h2 id="242b5532-cba4-80c9-92b3-f8c694c8c8f6" class="">Project Objectives</h2><ul id="242b5532-cba4-801b-ba7c-c7caf191d875" class="bulleted-list"><li style="list-style-type:disc">Automate receipt image analysis</li></ul><ul id="242b5532-cba4-8076-a5ff-d3cec0caaafc" class="bulleted-list"><li style="list-style-type:disc">Extract structured data using Amazon Textract&#x27;s <code>analyze_expense</code> API</li></ul><ul id="242b5532-cba4-8062-9d1a-f8d45f8de3aa" class="bulleted-list"><li style="list-style-type:disc">Store the extracted data in DynamoDB</li></ul><ul id="242b5532-cba4-80d8-aac6-f01df14a07e4" class="bulleted-list"><li style="list-style-type:disc">Send HTML-formatted email notifications using Amazon SES</li></ul><h2 id="242b5532-cba4-8088-93c6-f8caa71dad01" class="">Architecture Overview</h2><figure id="242b5532-cba4-8031-8f59-d9d17bd9a5ea" class="image"><a href="Automated_Receipt_Processor_diagram.jpeg"><img style="width:709.9768676757812px" src="./Automated Receipt Processor diagram.jpeg"/></a></figure><ul id="242b5532-cba4-80ed-b3f6-c93e53b10c3c" class="bulleted-list"><li style="list-style-type:disc"><strong>Amazon S3</strong>: Stores the receipt images</li></ul><ul id="242b5532-cba4-80a5-a17d-f77954dcd9d9" class="bulleted-list"><li style="list-style-type:disc"><strong>Amazon Textract</strong>: Extracts data from the receipts</li></ul><ul id="242b5532-cba4-80a4-98e7-fb24955cf319" class="bulleted-list"><li style="list-style-type:disc"><strong>AWS Lambda</strong>: Orchestrates the receipt processing workflow</li></ul><ul id="242b5532-cba4-8041-bd07-efdb5d5f8ec6" class="bulleted-list"><li style="list-style-type:disc"><strong>Amazon DynamoDB</strong>: Stores structured receipt data</li></ul><ul id="242b5532-cba4-80aa-a63f-ed3bcb0ade29" class="bulleted-list"><li style="list-style-type:disc"><strong>Amazon SES</strong>: Sends email notifications</li></ul><h2 id="242b5532-cba4-80b9-9917-d5cc477d63d4" class="">Features</h2><ul id="242b5532-cba4-80cc-8bd1-d4b141b7a93b" class="bulleted-list"><li style="list-style-type:disc">Triggered automatically by new S3 uploads</li></ul><ul id="242b5532-cba4-8056-81a3-f3ffe5b76379" class="bulleted-list"><li style="list-style-type:disc">Intelligent field extraction using Textract&#x27;s <code>analyze_expense</code> API</li></ul><ul id="242b5532-cba4-807b-a101-f3b51d9bed67" class="bulleted-list"><li style="list-style-type:disc">HTML email notifications containing detailed receipt summaries</li></ul><ul id="242b5532-cba4-80b9-82ae-d040c81fac2a" class="bulleted-list"><li style="list-style-type:disc">Structured storage in DynamoDB for querying and auditing</li></ul><h2 id="242b5532-cba4-8016-b7c2-c6f38fb78c56" class="">Setup Instructions</h2><h3 id="242b5532-cba4-802d-86c3-e1de4be4e2e0" class="">1. Prerequisites</h3><ul id="242b5532-cba4-8023-ad43-f31e1302e0d6" class="bulleted-list"><li style="list-style-type:disc">AWS Account</li></ul><ul id="242b5532-cba4-8078-bd8d-d001735524cf" class="bulleted-list"><li style="list-style-type:disc">Verified email addresses in Amazon SES (sender and recipient)</li></ul><ul id="242b5532-cba4-80a0-a775-c7573aafb247" class="bulleted-list"><li style="list-style-type:disc">IAM Role with the following permissions:<ul id="242b5532-cba4-809b-86ab-c9e99b99e625" class="bulleted-list"><li style="list-style-type:circle">Textract: <code>textract:AnalyzeExpense</code></li></ul><ul id="242b5532-cba4-8036-a1e0-da61821482c9" class="bulleted-list"><li style="list-style-type:circle">S3: <code>s3:GetObject</code>, <code>s3:HeadObject</code></li></ul><ul id="242b5532-cba4-80bb-a7e0-f5efc5d7678c" class="bulleted-list"><li style="list-style-type:circle">DynamoDB: <code>dynamodb:PutItem</code></li></ul><ul id="242b5532-cba4-8058-828b-c7cabe499234" class="bulleted-list"><li style="list-style-type:circle">SES: <code>ses:SendEmail</code></li></ul></li></ul><h3 id="242b5532-cba4-80b6-9249-e7296abfbb82" class="">2. Environment Variables</h3><p id="242b5532-cba4-80f9-bb36-d7097fe63d87" class="">Configure the following Lambda environment variables:</p><table id="242b5532-cba4-806e-aca6-dec452eb2a99" class="simple-table"><thead class="simple-table-header"><tr id="242b5532-cba4-801c-9425-d86c31727806"><th id="Ywd]" class="simple-table-header-color simple-table-header">Variable</th><th id="oclP" class="simple-table-header-color simple-table-header">Description</th></tr></thead><tbody><tr id="242b5532-cba4-8005-9a52-fbd996a51f3e"><td id="Ywd]" class=""><code>DYNAMODB_TABLE</code></td><td id="oclP" class="">Name of the DynamoDB table (e.g., <code>Receipts</code>)</td></tr><tr id="242b5532-cba4-80a1-a347-edd256875f1b"><td id="Ywd]" class=""><code>SES_SENDER_EMAIL</code></td><td id="oclP" class="">Verified SES sender address</td></tr><tr id="242b5532-cba4-809d-b743-e9227c7ac6e4"><td id="Ywd]" class=""><code>SES_RECIPIENT_EMAIL</code></td><td id="oclP" class="">Destination email for receipt summaries</td></tr></tbody></table><hr id="242b5532-cba4-80b2-827a-d62f651fb86e"/><h2 id="242b5532-cba4-80ef-b9b6-f1bcd72fee4a" class="">Lambda Function Code Explanation</h2><p id="242b5532-cba4-8093-b7d3-f4bf1708ae9c" class="">The Lambda function is modularly structured into the following components:</p><h3 id="242b5532-cba4-8061-b2ed-d427f8420060" class="">1. Lambda Handler</h3><p id="242b5532-cba4-807b-b8f6-ea1834e033b8" class="">This is the entry point for the Lambda function. It handles the S3 event, coordinates processing, and manages error handling.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="242b5532-cba4-80a7-b482-c14ebe58899a" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">def lambda_handler(event, context):
+    try:
+        # Extract bucket and object key from event
+        bucket = event[&#x27;Records&#x27;][0][&#x27;s3&#x27;][&#x27;bucket&#x27;][&#x27;name&#x27;]
+        key = urllib.parse.unquote_plus(event[&#x27;Records&#x27;][0][&#x27;s3&#x27;][&#x27;object&#x27;][&#x27;key&#x27;])
+
+        # Validate the object exists in S3
+        s3.head_object(Bucket=bucket, Key=key)
+
+        # Process receipt with Textract
+        receipt_data = process_receipt_with_textract(bucket, key)
+
+        # Store receipt data in DynamoDB
+        store_receipt_in_dynamodb(receipt_data)
+
+        # Send email notification
+        send_email_notification(receipt_data)
+
+        return {&#x27;statusCode&#x27;: 200, &#x27;body&#x27;: json.dumps(&#x27;Receipt processed successfully!&#x27;)}
+
+    except Exception as e:
+        print(f&quot;Error: {str(e)}&quot;)
+        return {&#x27;statusCode&#x27;: 500, &#x27;body&#x27;: json.dumps(f&#x27;Error: {str(e)}&#x27;)}
+</code></pre><p id="242b5532-cba4-8072-9f91-d7f8f4999f5c" class=""><strong>Responsibilities:</strong></p><ul id="242b5532-cba4-80bd-847b-c3f9c5af67de" class="bulleted-list"><li style="list-style-type:disc">Decodes S3 key</li></ul><ul id="242b5532-cba4-801d-8b7a-d10eb2d0c40d" class="bulleted-list"><li style="list-style-type:disc">Verifies object existence</li></ul><ul id="242b5532-cba4-80ed-8d33-f8dcf8ac06ea" class="bulleted-list"><li style="list-style-type:disc">Calls Textract processor</li></ul><ul id="242b5532-cba4-806e-9342-d6519f3a86ca" class="bulleted-list"><li style="list-style-type:disc">Stores data to DynamoDB</li></ul><ul id="242b5532-cba4-8074-a34f-f3a59e7b86f9" class="bulleted-list"><li style="list-style-type:disc">Sends email notifications</li></ul><ul id="242b5532-cba4-8081-b4a1-c4f5ff3df737" class="bulleted-list"><li style="list-style-type:disc">Handles exceptions</li></ul><h3 id="242b5532-cba4-80f9-badc-c757db19c004" class="">2. Textract Processing</h3><p id="242b5532-cba4-80ba-a267-dc6b42019ca5" class="">Uses <code>analyze_expense</code> API to extract structured data from receipts.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="242b5532-cba4-8041-946e-c14e898c99c1" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">def process_receipt_with_textract(bucket, key):
+    try:
+        response = textract.analyze_expense(Document={&#x27;S3Object&#x27;: {&#x27;Bucket&#x27;: bucket, &#x27;Name&#x27;: key}})
+    except Exception as e:
+        raise Exception(f&quot;Textract analyze_expense failed: {str(e)}&quot;)
+
+    receipt_id = str(uuid.uuid4())
+    receipt_data = {
+        &#x27;receipt_id&#x27;: receipt_id,
+        &#x27;date&#x27;: datetime.now().strftime(&#x27;%Y-%m-%d&#x27;),
+        &#x27;vendor&#x27;: &#x27;Unknown&#x27;,
+        &#x27;total&#x27;: &#x27;0.00&#x27;,
+        &#x27;subtotal&#x27;: &#x27;0.00&#x27;,
+        &#x27;tax&#x27;: &#x27;0.00&#x27;,
+        &#x27;discount&#x27;: &#x27;0.00&#x27;,
+        &#x27;invoice_number&#x27;: &#x27;N/A&#x27;,
+        &#x27;payment_method&#x27;: &#x27;N/A&#x27;,
+        &#x27;due_date&#x27;: &#x27;N/A&#x27;,
+        &#x27;billing_address&#x27;: &#x27;&#x27;,
+        &#x27;shipping_address&#x27;: &#x27;&#x27;,
+        &#x27;items&#x27;: [],
+        &#x27;s3_path&#x27;: f&quot;s3://{bucket}/{key}&quot;
+    }
+
+    # Parse summary fields
+    if &#x27;ExpenseDocuments&#x27; in response and response[&#x27;ExpenseDocuments&#x27;]:
+        doc = response[&#x27;ExpenseDocuments&#x27;][0]
+        for field in doc.get(&#x27;SummaryFields&#x27;, []):
+            field_type = field.get(&#x27;Type&#x27;, {}).get(&#x27;Text&#x27;, &#x27;&#x27;)
+            value = field.get(&#x27;ValueDetection&#x27;, {}).get(&#x27;Text&#x27;, &#x27;&#x27;)
+            confidence = field.get(&#x27;ValueDetection&#x27;, {}).get(&#x27;Confidence&#x27;, 0)
+
+            if confidence &lt; 80:
+                continue
+
+            mappings = {
+                &#x27;TOTAL&#x27;: &#x27;total&#x27;,
+                &#x27;SUBTOTAL&#x27;: &#x27;subtotal&#x27;,
+                &#x27;TAX&#x27;: &#x27;tax&#x27;,
+                &#x27;DISCOUNT&#x27;: &#x27;discount&#x27;,
+                &#x27;VENDOR_NAME&#x27;: &#x27;vendor&#x27;,
+                &#x27;INVOICE_RECEIPT_DATE&#x27;: &#x27;date&#x27;,
+                &#x27;INVOICE_RECEIPT_ID&#x27;: &#x27;invoice_number&#x27;,
+                &#x27;PAYMENT_METHOD&#x27;: &#x27;payment_method&#x27;,
+                &#x27;DUE_DATE&#x27;: &#x27;due_date&#x27;,
+                &#x27;BILLING_ADDRESS&#x27;: &#x27;billing_address&#x27;,
+                &#x27;SHIPPING_ADDRESS&#x27;: &#x27;shipping_address&#x27;,
+            }
+
+            if field_type in mappings:
+                receipt_data[mappings[field_type]] = value
+
+        # Parse line items
+        for group in doc.get(&#x27;LineItemGroups&#x27;, []):
+            for line_item in group.get(&#x27;LineItems&#x27;, []):
+                item = {}
+                for field in line_item.get(&#x27;LineItemExpenseFields&#x27;, []):
+                    field_type = field.get(&#x27;Type&#x27;, {}).get(&#x27;Text&#x27;, &#x27;&#x27;)
+                    value = field.get(&#x27;ValueDetection&#x27;, {}).get(&#x27;Text&#x27;, &#x27;&#x27;)
+                    confidence = field.get(&#x27;ValueDetection&#x27;, {}).get(&#x27;Confidence&#x27;, 0)
+
+                    if confidence &lt; 80:
+                        continue
+
+                    if field_type == &#x27;ITEM&#x27;:
+                        item[&#x27;name&#x27;] = value
+                    elif field_type == &#x27;DESCRIPTION&#x27;:
+                        item[&#x27;description&#x27;] = value
+                    elif field_type == &#x27;PRICE&#x27;:
+                        item[&#x27;price&#x27;] = value
+                    elif field_type == &#x27;UNIT_PRICE&#x27;:
+                        item[&#x27;unit_price&#x27;] = value
+                    elif field_type == &#x27;QUANTITY&#x27;:
+                        item[&#x27;quantity&#x27;] = value
+                    elif field_type == &#x27;PRODUCT_CODE&#x27;:
+                        item[&#x27;product_code&#x27;] = value
+
+                if &#x27;name&#x27; in item:
+                    receipt_data[&#x27;items&#x27;].append(item)
+
+    return receipt_data
+</code></pre><h3 id="242b5532-cba4-80b8-ade7-f7487bbb1c15" class="">3. DynamoDB Storage</h3><p id="242b5532-cba4-804c-996a-d36b418d30f5" class="">Stores receipt metadata and items in DynamoDB.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="242b5532-cba4-807b-bd52-f8ba512599b6" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">def store_receipt_in_dynamodb(receipt_data):
+    table = dynamodb.Table(DYNAMODB_TABLE)
+    items = [
+        {
+            &#x27;name&#x27;: i.get(&#x27;name&#x27;, &#x27;&#x27;),
+            &#x27;description&#x27;: i.get(&#x27;description&#x27;, &#x27;&#x27;),
+            &#x27;price&#x27;: i.get(&#x27;price&#x27;, &#x27;0.00&#x27;),
+            &#x27;unit_price&#x27;: i.get(&#x27;unit_price&#x27;, &#x27;&#x27;),
+            &#x27;quantity&#x27;: i.get(&#x27;quantity&#x27;, &#x27;1&#x27;),
+            &#x27;product_code&#x27;: i.get(&#x27;product_code&#x27;, &#x27;&#x27;)
+        } for i in receipt_data[&#x27;items&#x27;]
+    ]
+
+    db_item = {
+        &#x27;receipt_id&#x27;: receipt_data[&#x27;receipt_id&#x27;],
+        &#x27;date&#x27;: receipt_data[&#x27;date&#x27;],
+        &#x27;vendor&#x27;: receipt_data[&#x27;vendor&#x27;],
+        &#x27;invoice_number&#x27;: receipt_data[&#x27;invoice_number&#x27;],
+        &#x27;total&#x27;: receipt_data[&#x27;total&#x27;],
+        &#x27;subtotal&#x27;: receipt_data[&#x27;subtotal&#x27;],
+        &#x27;tax&#x27;: receipt_data[&#x27;tax&#x27;],
+        &#x27;discount&#x27;: receipt_data[&#x27;discount&#x27;],
+        &#x27;payment_method&#x27;: receipt_data[&#x27;payment_method&#x27;],
+        &#x27;due_date&#x27;: receipt_data[&#x27;due_date&#x27;],
+        &#x27;billing_address&#x27;: receipt_data[&#x27;billing_address&#x27;],
+        &#x27;shipping_address&#x27;: receipt_data[&#x27;shipping_address&#x27;],
+        &#x27;items&#x27;: items,
+        &#x27;s3_path&#x27;: receipt_data[&#x27;s3_path&#x27;],
+        &#x27;processed_timestamp&#x27;: datetime.now().isoformat()
+    }
+
+    table.put_item(Item=db_item)
+</code></pre><h3 id="242b5532-cba4-809a-9a03-df9ffa16e072" class="">4. Email Notification</h3><p id="242b5532-cba4-8098-90c7-d33147bb7a0e" class="">Uses Amazon SES to send a structured receipt summary.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="242b5532-cba4-80b9-9b99-fd4ce7e3e3ec" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">def send_email_notification(receipt_data):
+    items_html = &quot;&quot;.join(
+        [f&quot;&lt;li&gt;{i.get(&#x27;name&#x27;, &#x27;Unknown&#x27;)} - ${i.get(&#x27;price&#x27;, &#x27;N/A&#x27;)} x {i.get(&#x27;quantity&#x27;, &#x27;1&#x27;)}&lt;/li&gt;&quot; for i in receipt_data[&#x27;items&#x27;]]
+    ) or &quot;&lt;li&gt;No items found&lt;/li&gt;&quot;
+
+    html_body = f&quot;&quot;&quot;
+    &lt;html&gt;&lt;body&gt;
+    &lt;h2&gt;Receipt Notification&lt;/h2&gt;
+    &lt;p&gt;&lt;strong&gt;Receipt ID:&lt;/strong&gt; {receipt_data[&#x27;receipt_id&#x27;]}&lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;Vendor:&lt;/strong&gt; {receipt_data[&#x27;vendor&#x27;]}&lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;Date:&lt;/strong&gt; {receipt_data[&#x27;date&#x27;]}&lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;Total:&lt;/strong&gt; ${receipt_data[&#x27;total&#x27;]}&lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;Payment Method:&lt;/strong&gt; {receipt_data[&#x27;payment_method&#x27;]}&lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;Due Date:&lt;/strong&gt; {receipt_data[&#x27;due_date&#x27;]}&lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;Billing Address:&lt;/strong&gt; {receipt_data[&#x27;billing_address&#x27;]}&lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;Shipping Address:&lt;/strong&gt; {receipt_data[&#x27;shipping_address&#x27;]}&lt;/p&gt;
+    &lt;h3&gt;Items:&lt;/h3&gt;&lt;ul&gt;{items_html}&lt;/ul&gt;
+    &lt;/body&gt;&lt;/html&gt;
+    &quot;&quot;&quot;
+
+    ses.send_email(
+        Source=SES_SENDER_EMAIL,
+        Destination={&#x27;ToAddresses&#x27;: [SES_RECIPIENT_EMAIL]},
+        Message={
+            &#x27;Subject&#x27;: {&#x27;Data&#x27;: f&quot;Receipt Processed: {receipt_data[&#x27;vendor&#x27;]}&quot;},
+            &#x27;Body&#x27;: {&#x27;Html&#x27;: {&#x27;Data&#x27;: html_body}}
+        }
+    )
+</code></pre><hr id="242b5532-cba4-80bc-9387-c95eef783e60"/><h2 id="242b5532-cba4-80e1-97bf-ce647c0dc178" class="">Error Handling and Logging</h2><ul id="242b5532-cba4-803f-90d4-fe7974b75f11" class="bulleted-list"><li style="list-style-type:disc"><strong>Try-Except blocks</strong> ensure that all major steps are resilient to errors.</li></ul><ul id="242b5532-cba4-8001-bf9d-f2598bcdcc96" class="bulleted-list"><li style="list-style-type:disc"><strong>Logging</strong> via <code>print()</code> captures key steps and failures.</li></ul><ul id="242b5532-cba4-805b-b2f5-eb6ae347e616" class="bulleted-list"><li style="list-style-type:disc"><strong>Default values</strong> prevent crashes when certain receipt fields are missing.</li></ul><ul id="242b5532-cba4-80fa-9f89-d4303da6d472" class="bulleted-list"><li style="list-style-type:disc"><strong>Graceful degradation</strong> is used—if email fails, the rest of the pipeline still succeeds.</li></ul><h2 id="242b5532-cba4-8052-8ca3-de31cf679e74" class="">Technologies Used</h2><ul id="242b5532-cba4-8072-b4b7-e982982b16c7" class="bulleted-list"><li style="list-style-type:disc"><strong>AWS Lambda</strong>: Serverless compute</li></ul><ul id="242b5532-cba4-80fe-ba33-dfd4bf701b74" class="bulleted-list"><li style="list-style-type:disc"><strong>Amazon Textract</strong>: OCR and structured data extraction</li></ul><ul id="242b5532-cba4-80f3-8f83-d624ddddc13f" class="bulleted-list"><li style="list-style-type:disc"><strong>Amazon S3</strong>: Scalable object storage</li></ul><ul id="242b5532-cba4-80d6-99f7-da9a4729f18e" class="bulleted-list"><li style="list-style-type:disc"><strong>Amazon DynamoDB</strong>: NoSQL database</li></ul><ul id="242b5532-cba4-808d-98b1-d8c8011f1641" class="bulleted-list"><li style="list-style-type:disc"><strong>Amazon SES</strong>: Email sending service</li></ul><h2 id="242b5532-cba4-80c4-82f4-eb59753d507d" class="">Summary</h2><p id="242b5532-cba4-80d5-b8ea-c18b98a4975c" class="">This project demonstrates a complete end-to-end serverless workflow to process receipts using AWS technologies. It ensures reliability, scalability, and maintainability while providing detailed, structured outputs stored and communicated automatically.</p><hr id="242b5532-cba4-80f2-b987-c25ab1bcf934"/><h2 id="242b5532-cba4-8034-929d-dcd1102de84d" class="">Lambda Code - (Updated)</h2><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="242b5532-cba4-800c-8a26-f6fdc73bc02b" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">import json
+import os
+import boto3
+import uuid
+from datetime import datetime
+import urllib.parse
+
+# Initialize AWS clients
+s3 = boto3.client(&#x27;s3&#x27;)
+textract = boto3.client(&#x27;textract&#x27;)
+dynamodb = boto3.resource(&#x27;dynamodb&#x27;)
+ses = boto3.client(&#x27;ses&#x27;)
+
+# Environment variables
+DYNAMODB_TABLE = os.environ.get(&#x27;DYNAMODB_TABLE&#x27;, &#x27;Receipts&#x27;)
+SES_SENDER_EMAIL = os.environ.get(&#x27;SES_SENDER_EMAIL&#x27;, &#x27;your-email@example.com&#x27;)
+SES_RECIPIENT_EMAIL = os.environ.get(&#x27;SES_RECIPIENT_EMAIL&#x27;, &#x27;recipient@example.com&#x27;)
+
+def lambda_handler(event, context):
+    try:
+        bucket = event[&#x27;Records&#x27;][0][&#x27;s3&#x27;][&#x27;bucket&#x27;][&#x27;name&#x27;]
+        key = urllib.parse.unquote_plus(event[&#x27;Records&#x27;][0][&#x27;s3&#x27;][&#x27;object&#x27;][&#x27;key&#x27;])
+
+        print(f&quot;Processing receipt from {bucket}/{key}&quot;)
+
+        # Verify object exists
+        try:
+            s3.head_object(Bucket=bucket, Key=key)
+            print(&quot;Object verified successfully.&quot;)
+        except Exception as e:
+            raise Exception(f&quot;Failed to verify object: {str(e)}&quot;)
+
+        # Process receipt with Textract
+        receipt_data = process_receipt_with_textract(bucket, key)
+
+        # Store in DynamoDB
+        store_receipt_in_dynamodb(receipt_data)
+
+        # Send email notification
+        send_email_notification(receipt_data)
+
+        return {&#x27;statusCode&#x27;: 200, &#x27;body&#x27;: json.dumps(&#x27;Receipt processed successfully!&#x27;)}
+
+    except Exception as e:
+        print(f&quot;Error: {str(e)}&quot;)
+        return {&#x27;statusCode&#x27;: 500, &#x27;body&#x27;: json.dumps(f&#x27;Error: {str(e)}&#x27;)}
+
+
+def process_receipt_with_textract(bucket, key):
+    try:
+        response = textract.analyze_expense(
+            Document={&#x27;S3Object&#x27;: {&#x27;Bucket&#x27;: bucket, &#x27;Name&#x27;: key}}
+        )
+    except Exception as e:
+        raise Exception(f&quot;Textract analyze_expense failed: {str(e)}&quot;)
+
+    receipt_id = str(uuid.uuid4())
+    receipt_data = {
+        &#x27;receipt_id&#x27;: receipt_id,
+        &#x27;date&#x27;: datetime.now().strftime(&#x27;%Y-%m-%d&#x27;),
+        &#x27;vendor&#x27;: &#x27;Unknown&#x27;,
+        &#x27;total&#x27;: &#x27;0.00&#x27;,
+        &#x27;subtotal&#x27;: &#x27;0.00&#x27;,
+        &#x27;tax&#x27;: &#x27;0.00&#x27;,
+        &#x27;discount&#x27;: &#x27;0.00&#x27;,
+        &#x27;invoice_number&#x27;: &#x27;N/A&#x27;,
+        &#x27;payment_method&#x27;: &#x27;N/A&#x27;,
+        &#x27;due_date&#x27;: &#x27;N/A&#x27;,
+        &#x27;billing_address&#x27;: &#x27;&#x27;,
+        &#x27;shipping_address&#x27;: &#x27;&#x27;,
+        &#x27;items&#x27;: [],
+        &#x27;s3_path&#x27;: f&quot;s3://{bucket}/{key}&quot;
+    }
+
+    if &#x27;ExpenseDocuments&#x27; in response and response[&#x27;ExpenseDocuments&#x27;]:
+        doc = response[&#x27;ExpenseDocuments&#x27;][0]
+        for field in doc.get(&#x27;SummaryFields&#x27;, []):
+            field_type = field.get(&#x27;Type&#x27;, {}).get(&#x27;Text&#x27;) or field.get(&#x27;LabelDetection&#x27;, {}).get(&#x27;Text&#x27;, &#x27;&#x27;)
+            value = field.get(&#x27;ValueDetection&#x27;, {}).get(&#x27;Text&#x27;, &#x27;&#x27;)
+            confidence = field.get(&#x27;ValueDetection&#x27;, {}).get(&#x27;Confidence&#x27;, 0)
+
+            if confidence &lt; 80:
+                continue
+
+            mappings = {
+                &#x27;TOTAL&#x27;: &#x27;total&#x27;,
+                &#x27;SUBTOTAL&#x27;: &#x27;subtotal&#x27;,
+                &#x27;TAX&#x27;: &#x27;tax&#x27;,
+                &#x27;DISCOUNT&#x27;: &#x27;discount&#x27;,
+                &#x27;VENDOR_NAME&#x27;: &#x27;vendor&#x27;,
+                &#x27;INVOICE_RECEIPT_DATE&#x27;: &#x27;date&#x27;,
+                &#x27;INVOICE_RECEIPT_ID&#x27;: &#x27;invoice_number&#x27;,
+                &#x27;PAYMENT_METHOD&#x27;: &#x27;payment_method&#x27;,
+                &#x27;DUE_DATE&#x27;: &#x27;due_date&#x27;,
+                &#x27;BILLING_ADDRESS&#x27;: &#x27;billing_address&#x27;,
+                &#x27;SHIPPING_ADDRESS&#x27;: &#x27;shipping_address&#x27;,
+            }
+
+            if field_type in mappings:
+                receipt_data[mappings[field_type]] = value
+
+        for group in doc.get(&#x27;LineItemGroups&#x27;, []):
+            for line_item in group.get(&#x27;LineItems&#x27;, []):
+                item = {}
+                for field in line_item.get(&#x27;LineItemExpenseFields&#x27;, []):
+                    field_type = field.get(&#x27;Type&#x27;, {}).get(&#x27;Text&#x27;, &#x27;&#x27;)
+                    value = field.get(&#x27;ValueDetection&#x27;, {}).get(&#x27;Text&#x27;, &#x27;&#x27;)
+                    confidence = field.get(&#x27;ValueDetection&#x27;, {}).get(&#x27;Confidence&#x27;, 0)
+
+                    if confidence &lt; 80:
+                        continue
+
+                    if field_type == &#x27;ITEM&#x27;:
+                        item[&#x27;name&#x27;] = value
+                    elif field_type == &#x27;DESCRIPTION&#x27;:
+                        item[&#x27;description&#x27;] = value
+                    elif field_type == &#x27;PRICE&#x27;:
+                        item[&#x27;price&#x27;] = value
+                    elif field_type == &#x27;UNIT_PRICE&#x27;:
+                        item[&#x27;unit_price&#x27;] = value
+                    elif field_type == &#x27;QUANTITY&#x27;:
+                        item[&#x27;quantity&#x27;] = value
+                    elif field_type == &#x27;PRODUCT_CODE&#x27;:
+                        item[&#x27;product_code&#x27;] = value
+
+                if &#x27;name&#x27; in item:
+                    receipt_data[&#x27;items&#x27;].append(item)
+
+    print(f&quot;Extracted receipt data: {json.dumps(receipt_data)}&quot;)
+    return receipt_data
+
+
+def store_receipt_in_dynamodb(receipt_data):
+    try:
+        table = dynamodb.Table(DYNAMODB_TABLE)
+        items = [{
+            &#x27;name&#x27;: i.get(&#x27;name&#x27;, &#x27;&#x27;),
+            &#x27;description&#x27;: i.get(&#x27;description&#x27;, &#x27;&#x27;),
+            &#x27;price&#x27;: i.get(&#x27;price&#x27;, &#x27;0.00&#x27;),
+            &#x27;unit_price&#x27;: i.get(&#x27;unit_price&#x27;, &#x27;&#x27;),
+            &#x27;quantity&#x27;: i.get(&#x27;quantity&#x27;, &#x27;1&#x27;),
+            &#x27;product_code&#x27;: i.get(&#x27;product_code&#x27;, &#x27;&#x27;)
+        } for i in receipt_data[&#x27;items&#x27;]]
+
+        db_item = {
+            &#x27;receipt_id&#x27;: receipt_data[&#x27;receipt_id&#x27;],
+            &#x27;date&#x27;: receipt_data[&#x27;date&#x27;],
+            &#x27;vendor&#x27;: receipt_data[&#x27;vendor&#x27;],
+            &#x27;invoice_number&#x27;: receipt_data[&#x27;invoice_number&#x27;],
+            &#x27;total&#x27;: receipt_data[&#x27;total&#x27;],
+            &#x27;subtotal&#x27;: receipt_data[&#x27;subtotal&#x27;],
+            &#x27;tax&#x27;: receipt_data[&#x27;tax&#x27;],
+            &#x27;discount&#x27;: receipt_data[&#x27;discount&#x27;],
+            &#x27;payment_method&#x27;: receipt_data[&#x27;payment_method&#x27;],
+            &#x27;due_date&#x27;: receipt_data[&#x27;due_date&#x27;],
+            &#x27;billing_address&#x27;: receipt_data[&#x27;billing_address&#x27;],
+            &#x27;shipping_address&#x27;: receipt_data[&#x27;shipping_address&#x27;],
+            &#x27;items&#x27;: items,
+            &#x27;s3_path&#x27;: receipt_data[&#x27;s3_path&#x27;],
+            &#x27;processed_timestamp&#x27;: datetime.now().isoformat()
+        }
+
+        table.put_item(Item=db_item)
+        print(f&quot;Stored in DynamoDB: {receipt_data[&#x27;receipt_id&#x27;]}&quot;)
+    except Exception as e:
+        raise Exception(f&quot;Error storing in DynamoDB: {str(e)}&quot;)
+
+
+def send_email_notification(receipt_data):
+    try:
+        items_html = &quot;&quot;
+        for i in receipt_data[&#x27;items&#x27;]:
+            items_html += f&quot;&lt;li&gt;{i.get(&#x27;name&#x27;, &#x27;Unknown&#x27;)} - ${i.get(&#x27;price&#x27;, &#x27;N/A&#x27;)} x {i.get(&#x27;quantity&#x27;, &#x27;1&#x27;)}&lt;/li&gt;&quot;
+        if not items_html:
+            items_html = &quot;&lt;li&gt;No items found&lt;/li&gt;&quot;
+
+        html_body = f&quot;&quot;&quot;
+        &lt;html&gt;&lt;body&gt;
+        &lt;h2&gt;Receipt Notification&lt;/h2&gt;
+        &lt;p&gt;&lt;strong&gt;Receipt ID:&lt;/strong&gt; {receipt_data[&#x27;receipt_id&#x27;]}&lt;/p&gt;
+        &lt;p&gt;&lt;strong&gt;Vendor:&lt;/strong&gt; {receipt_data[&#x27;vendor&#x27;]}&lt;/p&gt;
+        &lt;p&gt;&lt;strong&gt;Date:&lt;/strong&gt; {receipt_data[&#x27;date&#x27;]}&lt;/p&gt;
+        &lt;p&gt;&lt;strong&gt;Total:&lt;/strong&gt; ${receipt_data[&#x27;total&#x27;]}&lt;/p&gt;
+        &lt;p&gt;&lt;strong&gt;Payment Method:&lt;/strong&gt; {receipt_data[&#x27;payment_method&#x27;]}&lt;/p&gt;
+        &lt;p&gt;&lt;strong&gt;Due Date:&lt;/strong&gt; {receipt_data[&#x27;due_date&#x27;]}&lt;/p&gt;
+        &lt;p&gt;&lt;strong&gt;Billing Address:&lt;/strong&gt; {receipt_data[&#x27;billing_address&#x27;]}&lt;/p&gt;
+        &lt;p&gt;&lt;strong&gt;Shipping Address:&lt;/strong&gt; {receipt_data[&#x27;shipping_address&#x27;]}&lt;/p&gt;
+        &lt;h3&gt;Items:&lt;/h3&gt;&lt;ul&gt;{items_html}&lt;/ul&gt;
+        &lt;/body&gt;&lt;/html&gt;
+        &quot;&quot;&quot;
+
+        ses.send_email(
+            Source=SES_SENDER_EMAIL,
+            Destination={&#x27;ToAddresses&#x27;: [SES_RECIPIENT_EMAIL]},
+            Message={
+                &#x27;Subject&#x27;: {&#x27;Data&#x27;: f&quot;Receipt Processed: {receipt_data[&#x27;vendor&#x27;]}&quot;},
+                &#x27;Body&#x27;: {&#x27;Html&#x27;: {&#x27;Data&#x27;: html_body}}
+            }
+        )
+        print(&quot;Email sent.&quot;)
+    except Exception as e:
+        print(f&quot;Email failed: {str(e)}&quot;)
+        # Continue execution even if SES fails
+</code></pre></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
